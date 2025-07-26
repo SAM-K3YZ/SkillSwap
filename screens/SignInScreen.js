@@ -20,6 +20,16 @@ function SignInScreen({ navigation }) {
         console.log("Check box clicked/unclicked...");
     }
 
+    function toForgetPassword() {
+        navigation.replace('ForgotPassword')
+        console.log("To forget password screen")
+    }
+
+    function toHomePage() {
+        navigation.navigate('MainApp')
+        console.log("Authenticating user...")
+    }
+
     return (
         <View style={styles.container}>
 
@@ -71,14 +81,57 @@ function SignInScreen({ navigation }) {
                                 style={styles.checkBox}
                             />
                         </Pressable>
-                        <Text>
+                        <Text style={{ fontFamily: MyFonts.regular }}>
                             Remember Password
                         </Text>
                     </View>
                     <View style={styles.fp}>
-                        <Text>
-                            Forgot Password?
+                        <Pressable onPress={toForgetPassword}>
+                            {({ pressed }) => (
+                                <Text
+                                    style={{
+                                        color: pressed ? MyColors.highlight : MyColors.error,
+                                        fontFamily: MyFonts.medium,
+                                    }}
+                                >
+                                    Forgot Password?
+                                </Text>
+                            )}
+                        </Pressable>
+                    </View>
+
+                </View>
+                <View>
+                    <Pressable
+                        onPress={toHomePage}
+                        style={({ pressed }) => [styles.toHomePageBtn, { opacity: pressed ? 0.5 : 1 }]}
+                    >
+                        <Text
+                            style={{
+                                color: MyColors.surface,
+                                fontSize: 18,
+                                fontFamily: MyFonts.medium,
+                            }}
+                        >
+                            Sign In
                         </Text>
+                    </Pressable>
+                </View>
+                <View style={styles.socialMediaSection}>
+                    <Text style={styles.orText} > or </Text>
+                    <View style={styles.socialMediaArea}>
+                        <Ionicons
+                            name="logo-google"
+                            size={35}
+                        />
+                        <Ionicons
+                            name="logo-facebook"
+                            size={35}
+                        />
+                        <Ionicons
+                            name="logo-apple"
+                            size={35}
+                        />
                     </View>
                 </View>
             </View>
@@ -119,7 +172,8 @@ const styles = StyleSheet.create({
     },
     aboutPassword: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginTop: 10,
     },
     rp: {
         flexDirection: 'row',
@@ -131,7 +185,30 @@ const styles = StyleSheet.create({
     },
     fp: {
         alignItems: 'center',
-        color: MyColors.error,
+    },
+    toHomePageBtn: {
+        width: '100%',
+        paddingVertical: 15,
+        paddingHorizontal: 30,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 25,
+        backgroundColor: MyColors.primary,
+    },
+    orText: {
+        justifyContent: 'center',
+        fontSize: 16,
+        fontFamily: MyFonts.medium,
+        textAlign: 'center',
+        justifyContent: 'center',
+        marginTop: 25,
+    },
+    socialMediaArea: {
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginTop: 20,
     }
 })
 
