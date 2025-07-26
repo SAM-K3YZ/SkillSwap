@@ -111,7 +111,7 @@ function OtpScreen({ navigation }) {
           onPress={() => {
             const otp = Object.values(otpState).join('');
             console.log("Entered OTP:", otp);
-            navigation.navigate('MainApp', { otp });
+            navigation.navigate('DOB', { otp });
           }}
         >
           <Text style={styles.verifyOtp}>Verify OTP</Text>

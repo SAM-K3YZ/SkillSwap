@@ -1,18 +1,31 @@
 import { useRef, useState } from 'react';
-import { View, Text, FlatList, Image, Animated, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  Animated,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  Pressable,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import onboardingData from '../util/onBoardingData';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import MyColors from '../util/MyColors';
+import MyFonts from '../util/MyFonts';
 
 const { width } = Dimensions.get('window');
 
 export default function OnboardingScreen() {
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = async () => {
     if (currentIndex < onboardingData.length - 1) {
@@ -27,6 +40,11 @@ export default function OnboardingScreen() {
     }
   };
 
+  const handleSkip = () => {
+    flatListRef.current.scrollToIndex({ index: onboardingData.length - 1 });
+    setCurrentIndex(onboardingData.length - 1);
+  };
+
   const renderItem = ({ item }) => (
     <View style={styles.slide}>
       <Image source={item.image} style={styles.image} />
@@ -36,11 +54,38 @@ export default function OnboardingScreen() {
   );
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
-    setCurrentIndex(viewableItems[0].index);
+    const index = viewableItems[0]?.index ?? 0;
+    setCurrentIndex(index);
+
+    if (index === onboardingData.length - 1) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      fadeAnim.setValue(0);
+    }
   }).current;
 
   return (
     <View style={styles.container}>
+      {/* Skip Button */}
+      {currentIndex < onboardingData.length - 1 && (
+        <Pressable style={styles.skipArea} onPress={handleSkip}>
+          <View style={styles.skipBtnContainer}>
+            <Text style={styles.skipBtn}>Skip</Text>
+            <Ionicons
+              name="chevron-forward"
+              size={24}
+              color={MyColors.primary}
+              style={styles.skipIcon}
+            />
+          </View>
+        </Pressable>
+      )}
+
+      {/* Slides */}
       <FlatList
         data={onboardingData}
         horizontal
@@ -48,13 +93,21 @@ export default function OnboardingScreen() {
         showsHorizontalScrollIndicator={false}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
-          useNativeDriver: false,
-        })}
+        ref={flatListRef}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          { useNativeDriver: false }
+        )}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
-        ref={flatListRef}
+        getItemLayout={(data, index) => ({
+          length: width,
+          offset: width * index,
+          index,
+        })}
       />
+
+      {/* Pagination Dots */}
       <View style={styles.pagination}>
         {onboardingData.map((_, i) => {
           const opacity = scrollX.interpolate({
@@ -65,15 +118,44 @@ export default function OnboardingScreen() {
           return <Animated.View key={i} style={[styles.dot, { opacity }]} />;
         })}
       </View>
-      <TouchableOpacity onPress={handleNext} style={styles.nextButton}>
-        <Text style={styles.nextText}>{currentIndex === onboardingData.length - 1 ? "Get Started" : "Next"}</Text>
-      </TouchableOpacity>
+
+      {/* Next / Get Started Button */}
+      {currentIndex === onboardingData.length - 1 ? (
+        <Animated.View style={[styles.nextButton, { opacity: fadeAnim }]}>
+          <TouchableOpacity onPress={handleNext}>
+            <Text style={styles.nextText}>Get Started</Text>
+          </TouchableOpacity>
+        </Animated.View>
+      ) : (
+        <TouchableOpacity onPress={handleNext} style={styles.nextButton}>
+          <Text style={styles.nextText}>Next</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  skipBtnContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 50,
+    paddingRight: 20,
+    alignSelf: 'flex-end',
+  },
+  skipBtn: {
+    color: MyColors.primary,
+    fontSize: 24,
+    fontFamily: MyFonts.semiBold,
+    marginRight: 5,
+  },
+  skipIcon: {
+    marginTop: 2,
+  },
   slide: {
     width,
     justifyContent: 'center',
@@ -121,5 +203,6 @@ const styles = StyleSheet.create({
   nextText: {
     color: '#fff',
     fontSize: 16,
+    fontFamily: MyFonts.medium,
   },
 });

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Pressable, TouchableOpacity, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ScrollView } from "react-native";
 import { useState } from "react";
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
@@ -19,6 +19,11 @@ function SignUpScreen({ navigation, signIn }) {
     });
   };
 
+  function toSignIn() {
+    navigation.navigate('SignIn')
+  }
+
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -26,54 +31,72 @@ function SignUpScreen({ navigation, signIn }) {
         <Text style={styles.desc}>Create an account and enjoy a world of learning and connections.</Text>
       </View>
 
-      <View style={styles.middle}>
-        <MyInput style={styles.inputMT} placeholder="First Name" icon='person' />
-        <MyInput style={styles.inputMT} placeholder="Last Name" icon='person' />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20} // Adjust if needed
+      >
+        <TouchableWithoutFeedback
+          onPress={Keyboard.dismiss}>
 
-        <View style={styles.numberInputContainer}>
-          <View style={styles.countryCodePicker}>
-            <Picker
-              selectedValue={callingCode}
-              onValueChange={(value) => setCallingCode(value)}
-              style={styles.picker}
-              dropdownIconColor={MyColors.textPrimary}
-            >
-              <Picker.Item label="+234 (NG)" value="234" />
-              <Picker.Item label="+1 (US)" value="1" />
-              <Picker.Item label="+44 (UK)" value="44" />
-              <Picker.Item label="+91 (IN)" value="91" />
-            </Picker>
-          </View>
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={styles.middle}>
+              <MyInput style={styles.inputMT} placeholder="First Name" icon='person' />
+              <MyInput style={styles.inputMT} placeholder="Last Name" icon='person' />
 
-          <MyInput style={styles.phone} placeholder="Phone Number" icon='call' />
-        </View>
+              <View style={styles.numberInputContainer}>
+                <View style={styles.countryCodePicker}>
+                  <Picker
+                    selectedValue={callingCode}
+                    onValueChange={(value) => setCallingCode(value)}
+                    style={styles.picker}
+                    dropdownIconColor={MyColors.textPrimary}
+                  >
+                    <Picker.Item label="+234 (NG)" value="234" />
+                    <Picker.Item label="+1 (US)" value="1" />
+                    <Picker.Item label="+44 (UK)" value="44" />
+                    <Picker.Item label="+91 (IN)" value="91" />
+                  </Picker>
+                </View>
 
-        <MyInput style={styles.inputMT} placeholder="Email Address" icon='mail' />
+                <MyInput style={styles.phone} placeholder="Phone Number" icon='call' />
+              </View>
 
-        <MyInput
-          placeholder="Password"
-          secureTextEntry={!showPassword}
-          icon="lock-closed"
-          style={styles.inputMT}
-          rightIcon={
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <Ionicons name={showPassword ? "eye-off" : "eye"} size={24} color={MyColors.textSecondary} />
-            </TouchableOpacity>
-          }
-        />
+              <MyInput style={styles.inputMT} placeholder="Email Address" icon='mail' />
 
-        <MyInput
-          placeholder="Confirm Password"
-          secureTextEntry={!showConfirmPassword}
-          icon="lock-closed"
-          style={styles.inputMT}
-          rightIcon={
-            <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-              <Ionicons name={showConfirmPassword ? "eye-off" : "eye"} size={24} color={MyColors.textSecondary} />
-            </TouchableOpacity>
-          }
-        />
-      </View>
+              <MyInput
+                placeholder="Password"
+                secureTextEntry={!showPassword}
+                icon="lock-closed"
+                style={styles.inputMT}
+                rightIcon={
+                  <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                    <Ionicons name={showPassword ? "eye-off" : "eye"} size={24} color={MyColors.textSecondary} />
+                  </TouchableOpacity>
+                }
+              />
+
+              <MyInput
+                placeholder="Confirm Password"
+                secureTextEntry={!showConfirmPassword}
+                icon="lock-closed"
+                style={styles.inputMT}
+                rightIcon={
+                  <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
+                    <Ionicons name={showConfirmPassword ? "eye-off" : "eye"} size={24} color={MyColors.textSecondary} />
+                  </TouchableOpacity>
+                }
+              />
+            </View>
+          </ScrollView>
+
+        </TouchableWithoutFeedback>
+
+      </KeyboardAvoidingView>
 
       <View style={styles.bottom}>
         <Pressable
@@ -86,7 +109,7 @@ function SignUpScreen({ navigation, signIn }) {
         <View style={styles.toSignIn}>
           <Text style={styles.accountText}>Already have an account?</Text>
 
-          <Pressable onPress={signIn} style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}>
+          <Pressable onPress={toSignIn} style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}>
             <Text style={styles.signInText}>Sign In</Text>
           </Pressable>
         </View>
@@ -97,14 +120,16 @@ function SignUpScreen({ navigation, signIn }) {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
     backgroundColor: MyColors.background,
   },
+
   top: {
-    marginTop: 0,
+    marginTop: 20,
+  },
+  scrollContent: {
+    paddingBottom: 30,
   },
   title: {
     fontSize: 24,
@@ -118,6 +143,7 @@ const styles = StyleSheet.create({
     color: MyColors.textSecondary,
   },
   middle: {
+    marginTop: 40,
     justifyContent: 'center',
     alignItems: 'center',
   },

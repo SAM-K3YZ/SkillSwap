@@ -2,59 +2,72 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import MyColors from './util/MyColors';
 import MyFonts from './util/MyFonts';
 import useCustomFonts from './util/fonts/useCustomFonts';
+
 import Tabs from './components/Tabs';
+import BootScreen from './screens/BootScreen';
 import OnBoardingScreen from './screens/OnBoardingScreen';
 import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import OtpScreen from './screens/OtpScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import DateOfBirthScreen from './screens/DateOfBirthScreen';
+import ProfessionScreen from './screens/ProfessionsScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const fontsLoaded = useCustomFonts();
-  const [firstTimerUser, setFirstTimerUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Default false or get from auth later
+  const [initialRoute, setInitialRoute] = useState(null);
 
   useEffect(() => {
-    checkOnBoardingStatus();
+    const init = async () => {
+      try {
+        const onboarded = await AsyncStorage.getItem('hasOnboarded');
+        // TODO: Replace with real auth check
+        const userIsLoggedIn = false;
+        if (!onboarded) {
+          setInitialRoute('BootScreen');
+        } else if (userIsLoggedIn) {
+          setInitialRoute('MainApp');
+        } else {
+          setInitialRoute('SignIn');
+        }
+      } catch (err) {
+        console.error('Error loading app state:', err);
+        setInitialRoute('SignIn');
+      }
+    };
+    init();
   }, []);
 
-  const checkOnBoardingStatus = async () => {
-    try {
-      const value = await AsyncStorage.getItem('hasOnboarded');
-      setFirstTimerUser(value === null);
-    } catch (error) {
-      console.error('Error reading onboarding status:', error);
-      setFirstTimerUser(true); // fallback
-    }
-  };
-
-  if (!fontsLoaded || firstTimerUser === null) {
-    return <View><Text>Loading app...</Text></View>;
+  if (!fontsLoaded || initialRoute === null) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ fontFamily: MyFonts.regular }}>Loading app...</Text>
+      </View>
+    );
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {firstTimerUser ? (
-          <Stack.Screen name='OnBoarding' component={OnBoardingScreen} />
-        ) : isLoggedIn ? (
-          <Stack.Screen name='MainApp' component={Tabs} />
-        ) : (
-          <>
-            <Stack.Screen name='SignIn' component={SignInScreen} />
-            <Stack.Screen name='ForgotPassword' component={ForgotPasswordScreen} />
-          </>
-        )}
-        <Stack.Screen name='SignUp' component={SignUpScreen} />
-        <Stack.Screen name='Otp' component={OtpScreen} />
-        <Stack.Screen name='MainApp' component={Tabs} />
+      <Stack.Navigator
+        initialRouteName={initialRoute}
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="BootScreen" component={BootScreen} />
+        <Stack.Screen name="OnBoarding" component={OnBoardingScreen} />
+        <Stack.Screen name="SignIn" component={SignInScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="Otp" component={OtpScreen} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+        <Stack.Screen name="DOB" component={DateOfBirthScreen} />
+        <Stack.Screen name="Profession" component={ProfessionScreen} />
+        <Stack.Screen name="MainApp" component={Tabs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -67,6 +80,5 @@ const styles = StyleSheet.create({
     backgroundColor: MyColors.background,
     alignItems: 'center',
     justifyContent: 'center',
-    fontFamily: MyFonts.regular,
   },
 });
