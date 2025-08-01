@@ -23,6 +23,7 @@ function PersonaInput({ title, placeholder, style, ...rest }) {
 
 const styles = StyleSheet.create({
     container: {
+        width:'100%',
         marginTop: 20,
         marginBottom: 10,
         backgroundColor: MyColors.background,
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: MyFonts.medium,
         color: MyColors.textSecondary,
+        //backgroundColor: 'rgba(52, 52, 52, 0.8)',
     },
 });
 

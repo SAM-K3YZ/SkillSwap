@@ -8,10 +8,7 @@ function HomeScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Home Screen</Text>
-        <View style={styles.rightSide}>
-          <Ionicons name="notifications-outline" size={24} color={MyColors.icon} />
-        </View>
+
       </View>
     </View>
   );
@@ -29,7 +26,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
     marginTop: 20,
     paddingBottom: 10,
     borderBottomColor: MyColors.border,

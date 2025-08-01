@@ -17,6 +17,9 @@ import OtpScreen from './screens/OtpScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import DateOfBirthScreen from './screens/DateOfBirthScreen';
 import ProfessionScreen from './screens/ProfessionsScreen';
+import MyDrawer from './components/MyDrawer';
+import SearchScreen from './screens/SearchScreen';
+import PremiumSCreen from './screens/PremiumScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -67,7 +70,9 @@ export default function App() {
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         <Stack.Screen name="DOB" component={DateOfBirthScreen} />
         <Stack.Screen name="Profession" component={ProfessionScreen} />
-        <Stack.Screen name="MainApp" component={Tabs} />
+        <Stack.Screen name="MainApp" component={MyDrawer} />
+        <Stack.Screen name="Search" component={SearchScreen} />
+        <Stack.Screen name="Premium" component={PremiumSCreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

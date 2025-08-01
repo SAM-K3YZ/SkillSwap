@@ -5,11 +5,13 @@ import { useState } from "react";
 import MyColors from "../util/MyColors";
 import MyFonts from "../util/MyFonts";
 import PersonalInput from '../components/PersonaInput';
+import SignInModal from "../components/SignInModal";
 
 function SignInScreen({ navigation }) {
 
     const [showPassword, setShowPassword] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
     function toSignUp() {
         navigation.replace('SignUp')
@@ -26,7 +28,7 @@ function SignInScreen({ navigation }) {
     }
 
     function toHomePage() {
-        navigation.navigate('MainApp')
+        navigation.replace('MainApp');
         console.log("Authenticating user...")
     }
 
@@ -120,10 +122,17 @@ function SignInScreen({ navigation }) {
                 <View style={styles.socialMediaSection}>
                     <Text style={styles.orText} > or </Text>
                     <View style={styles.socialMediaArea}>
-                        <Ionicons
-                            name="logo-google"
-                            size={35}
-                        />
+                        <Pressable
+                            onPress={() => {
+                                setModalVisible(true)
+                                console.log('Pressable Clicked...')
+                            }}
+                        >
+                            <Ionicons
+                                name="logo-google"
+                                size={35}
+                            />
+                        </Pressable>
                         <Ionicons
                             name="logo-facebook"
                             size={35}
@@ -135,8 +144,10 @@ function SignInScreen({ navigation }) {
                     </View>
                 </View>
             </View>
-
-
+            <SignInModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+            />
         </View >
     )
 }
