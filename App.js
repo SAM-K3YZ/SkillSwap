@@ -19,7 +19,11 @@ import DateOfBirthScreen from './screens/DateOfBirthScreen';
 import ProfessionScreen from './screens/ProfessionsScreen';
 import MyDrawer from './components/MyDrawer';
 import SearchScreen from './screens/SearchScreen';
-import PremiumSCreen from './screens/PremiumScreen';
+import PremiumSCreen from './screens/DrawerScreens/PremiumScreen';
+import CommunityScreen from './screens/DrawerScreens/CommunityScreen';
+import TimetableScreen from './screens/DrawerScreens/TimetableScreen';
+import HistoryScreen from './screens/DrawerScreens/HistoryScreen';
+import PersonilseCoachingScreen from './screens/DrawerScreens/PersonaliseCoachingScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,7 +76,11 @@ export default function App() {
         <Stack.Screen name="Profession" component={ProfessionScreen} />
         <Stack.Screen name="MainApp" component={MyDrawer} />
         <Stack.Screen name="Search" component={SearchScreen} />
+        <Stack.Screen name="Community" component={CommunityScreen} />
         <Stack.Screen name="Premium" component={PremiumSCreen} />
+        <Stack.Screen name="Timetable" component={TimetableScreen} />
+        <Stack.Screen name="History" component={HistoryScreen} />
+        <Stack.Screen name="Personalise" component={PersonilseCoachingScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

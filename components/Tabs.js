@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import MyColors from '../util/MyColors';
 import HomeScreen from '../screens/HomeScreen';
@@ -32,16 +33,22 @@ const withDrawerHeader = (navigation, rightIcons = []) => ({
     ),
     headerRight: () => (
         <View style={styles.headerRight}>
-            {rightIcons.map((icon, index) => (
-                <Ionicons
-                    key={index}
-                    name={icon.name}
-                    size={24}
-                    color={icon.color || MyColors.primary} // fallback color
-                    style={{ marginLeft: 15 }}
-                    onPress={icon.onPress}
-                />
-            ))}
+            {rightIcons.map((icon, index) => {
+                const IconPack = {
+                    Ionicons,
+                    MaterialCommunityIcons,
+                }[icon.family || 'Ionicons'];
+                return (
+                    <IconPack
+                        key={index}
+                        name={icon.name}
+                        size={24}
+                        color={icon.color || MyColors.primary}
+                        style={{ marginLeft: 15 }}
+                        onPress={icon.onPress}
+                    />
+                );
+            })}
         </View>
     )
 });
@@ -82,25 +89,28 @@ const Tabs = () => {
                 options={({ navigation }) => ({
                     ...withDrawerHeader(navigation, [
                         {
-                            name: 'search',
+                            name: 'magnify', // MaterialCommunityIcons
                             color: MyColors.textSecondary,
-                            onPress: () => navigation.navigate('Search')
+                            onPress: () => navigation.navigate('Search'),
+                            family: 'MaterialCommunityIcons',
                         },
                         {
-                            name: 'shield-checkmark',
-                            color: MyColors.success,
-                            onPress: () => navigation.navigate('Premium')
+                            name: 'crown-outline', // MaterialCommunityIcons
+                            color: '#FF9F1C',
+                            onPress: () => navigation.navigate('Premium'),
+                            family: 'MaterialCommunityIcons',
                         },
                     ]),
                     tabBarLabel: 'Home',
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
-                            name={focused ? "home" : 'home-outline'}
+                            name={focused ? 'home' : 'home-outline'}
+                            family="Ionicons"
                             size={30}
                             color={focused ? MyColors.primary : MyColors.textSecondary}
                             style={styles.tabIcon}
                         />
-                    )
+                    ),
                 })}
             />
 

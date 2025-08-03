@@ -1,15 +1,20 @@
+import { View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
-function TabIcon({ name, title, color, size, style }) {
+const ICON_FAMILIES = {
+    Ionicons,
+    MaterialCommunityIcons,
+};
+
+const TabIcon = ({ name, size, color, family = 'Ionicons', style }) => {
+    const IconComponent = ICON_FAMILIES[family] || Ionicons;
+
     return (
-        <Ionicons
-            name={name}
-            title={title}
-            size={size}
-            color={color}
-            style={style}
-        />
+        <View style={style}>
+            <IconComponent name={name} size={size} color={color} />
+        </View>
     );
-}
+};
 
 export default TabIcon;
