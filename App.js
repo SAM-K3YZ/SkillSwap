@@ -19,6 +19,8 @@ import DateOfBirthScreen from './screens/DateOfBirthScreen';
 import ProfessionScreen from './screens/ProfessionsScreen';
 import MyDrawer from './components/MyDrawer';
 import SearchScreen from './screens/SearchScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import VideoScreen from './screens/VideoScreen';
 import PremiumSCreen from './screens/DrawerScreens/PremiumScreen';
 import CommunityScreen from './screens/DrawerScreens/CommunityScreen';
 import TimetableScreen from './screens/DrawerScreens/TimetableScreen';
@@ -76,7 +78,9 @@ export default function App() {
         <Stack.Screen name="Profession" component={ProfessionScreen} />
         <Stack.Screen name="MainApp" component={MyDrawer} />
         <Stack.Screen name="Search" component={SearchScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Community" component={CommunityScreen} />
+        <Stack.Screen name="Video" component={VideoScreen} />
         <Stack.Screen name="Premium" component={PremiumSCreen} />
         <Stack.Screen name="Timetable" component={TimetableScreen} />
         <Stack.Screen name="History" component={HistoryScreen} />

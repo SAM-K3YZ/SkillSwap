@@ -1,14 +1,15 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { StyleSheet, View } from 'react-native';
+import { FontAwesome, MaterialCommunityIcons, Ionicons, FontAwesome6 } from '@expo/vector-icons';
 
 import MyColors from '../util/MyColors';
 import HomeScreen from '../screens/HomeScreen';
 import ChatScreen from '../screens/ChatScreen';
 import SessionScreen from '../screens/SessionScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import { StyleSheet, View } from 'react-native';
 import TabIcon from './TabIcon';
+import VideoScreen from '../screens/VideoScreen';
+import CommunityScreen from '../screens/DrawerScreens/CommunityScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -37,6 +38,8 @@ const withDrawerHeader = (navigation, rightIcons = []) => ({
                 const IconPack = {
                     Ionicons,
                     MaterialCommunityIcons,
+                    FontAwesome,
+                    FontAwesome6
                 }[icon.family || 'Ionicons'];
                 return (
                     <IconPack
@@ -89,11 +92,12 @@ const Tabs = () => {
                 options={({ navigation }) => ({
                     ...withDrawerHeader(navigation, [
                         {
-                            name: 'magnify', // MaterialCommunityIcons
+                            name: 'person-outline',
                             color: MyColors.textSecondary,
-                            onPress: () => navigation.navigate('Search'),
-                            family: 'MaterialCommunityIcons',
+                            onPress: () => navigation.navigate('Profile'),
+                            family: 'Ionicons',
                         },
+
                         {
                             name: 'crown-outline', // MaterialCommunityIcons
                             color: '#FF9F1C',
@@ -135,7 +139,7 @@ const Tabs = () => {
                     ),
                 })}
             />
-            <Tab.Screen name='Sessions' component={SessionScreen}
+            <Tab.Screen name='Feed' component={CommunityScreen}
                 options={({ navigation }) => ({
                     ...withDrawerHeader(navigation, [
                         {
@@ -143,19 +147,19 @@ const Tabs = () => {
                             onPress: () => navigation.navigate('Notifications')
                         },
                     ]),
-                    tabBarLabel: 'Sessions',
+                    tabBarLabel: 'Feed',
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
                             color={focused ? MyColors.primary : MyColors.textSecondary}
                             size={30}
-                            name={focused ? "timer-sharp" : "timer-outline"}
+                            name={focused ? "git-network" : "git-network-outline"}
                             style={styles.tabIcon}
                         />
                     ),
                 })}
 
             />
-            <Tab.Screen name='Profile' component={ProfileScreen}
+            <Tab.Screen name='Video' component={VideoScreen}
                 options={({ navigation }) => ({
                     ...withDrawerHeader(navigation, [
                         {
@@ -163,12 +167,12 @@ const Tabs = () => {
                             onPress: () => navigation.navigate('Notifications')
                         },
                     ]),
-                    tabBarLabel: 'Profile',
+                    tabBarLabel: 'Video',
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
                             color={focused ? MyColors.primary : MyColors.textSecondary}
                             size={30}
-                            name={focused ? "person-sharp" : "person-outline"}
+                            name={focused ? "videocam" : "videocam-outline"}
                             style={styles.tabIcon}
                         />
                     ),

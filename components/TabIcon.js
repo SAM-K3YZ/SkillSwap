@@ -1,10 +1,10 @@
 import { View } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const ICON_FAMILIES = {
     Ionicons,
     MaterialCommunityIcons,
+    FontAwesome,
 };
 
 const TabIcon = ({ name, size, color, family = 'Ionicons', style }) => {
