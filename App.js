@@ -26,6 +26,7 @@ import CommunityScreen from './screens/DrawerScreens/CommunityScreen';
 import TimetableScreen from './screens/DrawerScreens/TimetableScreen';
 import HistoryScreen from './screens/DrawerScreens/HistoryScreen';
 import PersonilseCoachingScreen from './screens/DrawerScreens/PersonaliseCoachingScreen';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,30 +64,34 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={initialRoute}
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="BootScreen" component={BootScreen} />
-        <Stack.Screen name="OnBoarding" component={OnBoardingScreen} />
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="Otp" component={OtpScreen} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-        <Stack.Screen name="DOB" component={DateOfBirthScreen} />
-        <Stack.Screen name="Profession" component={ProfessionScreen} />
-        <Stack.Screen name="MainApp" component={MyDrawer} />
-        <Stack.Screen name="Search" component={SearchScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="Community" component={CommunityScreen} />
-        <Stack.Screen name="Video" component={VideoScreen} />
-        <Stack.Screen name="Premium" component={PremiumSCreen} />
-        <Stack.Screen name="Timetable" component={TimetableScreen} />
-        <Stack.Screen name="History" component={HistoryScreen} />
-        <Stack.Screen name="Personalise" component={PersonilseCoachingScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView
+      style={{ flex: 1 }}
+    >
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName={initialRoute}
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="BootScreen" component={BootScreen} />
+          <Stack.Screen name="OnBoarding" component={OnBoardingScreen} />
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="Otp" component={OtpScreen} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+          <Stack.Screen name="DOB" component={DateOfBirthScreen} />
+          <Stack.Screen name="Profession" component={ProfessionScreen} />
+          <Stack.Screen name="MainApp" component={MyDrawer} />
+          <Stack.Screen name="Search" component={SearchScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Community" component={CommunityScreen} />
+          <Stack.Screen name="Video" component={VideoScreen} />
+          <Stack.Screen name="Premium" component={PremiumSCreen} />
+          <Stack.Screen name="Timetable" component={TimetableScreen} />
+          <Stack.Screen name="History" component={HistoryScreen} />
+          <Stack.Screen name="Personalise" component={PersonilseCoachingScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 
