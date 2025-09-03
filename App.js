@@ -41,8 +41,12 @@ export default function App() {
         // TODO: Replace with real auth check
         const userIsLoggedIn = false;
         if (!onboarded) {
+<<<<<<< HEAD
           setInitialRoute('MainApp'); // remove this when after development
           //setInitialRoute('BootScreen');
+=======
+          setInitialRoute('BootScreen');
+>>>>>>> 59d7106318d2e9589ae58a192ea664a693011cb4
         } else if (userIsLoggedIn) {
           setInitialRoute('MainApp');
         } else {

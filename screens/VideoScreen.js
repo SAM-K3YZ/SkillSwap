@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { FAB } from 'react-native-elements';
 
@@ -46,3 +47,16 @@ const styles = StyleSheet.create({
 });
 
 export default VideoScreen;
+=======
+import { Text, View } from "react-native";
+
+function VideoScreen(){
+ return(
+    <View>
+        <Text>Video Screen</Text>
+    </View>
+ );
+}
+
+export default VideoScreen;
+>>>>>>> 59d7106318d2e9589ae58a192ea664a693011cb4
