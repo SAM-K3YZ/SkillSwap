@@ -25,15 +25,8 @@
     "react": "19.0.0",
     "react-native": "0.79.5",
     "react-native-calendars": "^1.1313.0",
-<<<<<<< HEAD
     "react-native-collapsible-tab-view": "^8.0.1",
     "react-native-elements": "^3.4.3",
-=======
-<<<<<<< HEAD
-    "react-native-elements": "^3.4.3",
-=======
->>>>>>> 59d7106318d2e9589ae58a192ea664a693011cb4
->>>>>>> c211b639711e8b8451da0976fc714a6745e47931
     "react-native-gesture-handler": "~2.24.0",
     "react-native-modal": "^14.0.0-rc.1",
     "react-native-reanimated": "~3.17.4"
