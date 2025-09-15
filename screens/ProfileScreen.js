@@ -1,10 +1,16 @@
 import { useRef, useState } from "react";
-import { View, Text, ScrollView, Pressable, StyleSheet, Alert, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Alert,
+  FlatList,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import MyColors from "../util/MyColors";
 import TimelineCard from "../components/TimelineCard";
@@ -22,12 +28,12 @@ const ProfileScreen = () => {
   }
 
   //overlay button handlers
-  const handleEdit = () => Alert.alert('Edit Information')
-  const handleStats = () => Alert.alert('Statictics')
-  const handleInterests = () => Alert.alert('Interests')
-  const handleSettings = () => Alert.alert('Settings')
-  const handleHelp = () => Alert.alert('Help')
-  const handleLogout = () => Alert.alert('Logging out...')
+  const handleEdit = () => Alert.alert("Edit Information");
+  const handleStats = () => Alert.alert("Statictics");
+  const handleInterests = () => Alert.alert("Interests");
+  const handleSettings = () => Alert.alert("Settings");
+  const handleHelp = () => Alert.alert("Help");
+  const handleLogout = () => Alert.alert("Logging out...");
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -36,9 +42,7 @@ const ProfileScreen = () => {
           <FlatList
             data={timelineData}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <TimelineCard {...item} />
-            )}
+            renderItem={({ item }) => <TimelineCard {...item} />}
           />
         );
       case "Likes":
@@ -48,9 +52,7 @@ const ProfileScreen = () => {
           <FlatList
             data={usersData}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <FollowersCard {...item} />
-            )}
+            renderItem={({ item }) => <FollowersCard {...item} />}
           />
         );
       default:
@@ -60,7 +62,7 @@ const ProfileScreen = () => {
 
   return (
     <FlatList
-      data={activeTab == 'Grid' ? timelineData : []}
+      data={activeTab == "Grid" ? timelineData : []}
       keyExtractor={(item, index) => index.toString()}
       style={styles.listContainer}
       renderItem={({ item }) => <TimelineCard {...item} />}
@@ -68,10 +70,13 @@ const ProfileScreen = () => {
         <>
           <View style={styles.container}>
             <View style={styles.topNav}>
-
               {/* Back Button */}
               <Pressable style={styles.backBtn} onPress={back}>
-                <Ionicons name="chevron-back" color={MyColors.textPrimary} size={24} />
+                <Ionicons
+                  name="chevron-back"
+                  color={MyColors.textPrimary}
+                  size={24}
+                />
               </Pressable>
 
               {/* Username */}
@@ -89,7 +94,6 @@ const ProfileScreen = () => {
                 />
               </Pressable>
             </View>
-
 
             {/* Profile Header */}
             <View style={styles.profileHeader}>
@@ -116,41 +120,54 @@ const ProfileScreen = () => {
               </View>
 
               <Text style={styles.aboutText}>
-                Hi! I'm John, passionate about branding, conversion optimization, and
-                data analytics.
+                Hi! I'm John, passionate about branding, conversion
+                optimization, and data analytics.
               </Text>
             </View>
 
             {/* Sticky Tab Bar */}
             <View style={styles.tabBar}>
               <Pressable
-                style={[styles.tabItem, activeTab === "Grid" && styles.activeTab]}
+                style={[
+                  styles.tabItem,
+                  activeTab === "Grid" && styles.activeTab,
+                ]}
                 onPress={() => setActiveTab("Grid")}
               >
                 <Ionicons
                   name="grid"
                   size={24}
                   color={
-                    activeTab === "Grid" ? MyColors.highlight : MyColors.textSecondary
+                    activeTab === "Grid"
+                      ? MyColors.highlight
+                      : MyColors.textSecondary
                   }
                 />
               </Pressable>
 
               <Pressable
-                style={[styles.tabItem, activeTab === "Likes" && styles.activeTab]}
+                style={[
+                  styles.tabItem,
+                  activeTab === "Likes" && styles.activeTab,
+                ]}
                 onPress={() => setActiveTab("Likes")}
               >
                 <Ionicons
                   name="heart-outline"
                   size={24}
                   color={
-                    activeTab === "Likes" ? MyColors.highlight : MyColors.textSecondary
+                    activeTab === "Likes"
+                      ? MyColors.highlight
+                      : MyColors.textSecondary
                   }
                 />
               </Pressable>
 
               <Pressable
-                style={[styles.tabItem, activeTab === "Followers" && styles.activeTab]}
+                style={[
+                  styles.tabItem,
+                  activeTab === "Followers" && styles.activeTab,
+                ]}
                 onPress={() => setActiveTab("Followers")}
               >
                 <Ionicons
@@ -166,9 +183,7 @@ const ProfileScreen = () => {
             </View>
 
             {/* Tab Content */}
-            <View>{activeTab !== 'Grid' && renderTabContent()}</View>
-
-
+            <View>{activeTab !== "Grid" && renderTabContent()}</View>
           </View>
           {/* Profile Overlay Menu */}
           <ProfileOverlay
@@ -190,13 +205,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: MyColors.background
+    backgroundColor: MyColors.background,
   },
   topNav: {
     marginTop: 20,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center'
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
   },
   backBtn: {
     padding: 10,
@@ -256,11 +271,11 @@ const styles = StyleSheet.create({
   tabContent: {
     padding: 20,
     color: MyColors.textPrimary,
-    backgroundColor: MyColors.background
+    backgroundColor: MyColors.background,
   },
   listContainer: {
-    backgroundColor: MyColors.background
-  }
+    backgroundColor: MyColors.background,
+  },
 });
 
 export default ProfileScreen;

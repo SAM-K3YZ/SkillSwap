@@ -1,31 +1,41 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 import MyColors from "../util/MyColors";
 import { FontAwesome6 } from '@expo/vector-icons';
 import MyFonts from "../util/MyFonts";
 
 function MyInterestCard({ title, description, style }) {
+
+    function toMyInterestPage() {
+        console.log('Going to my interest page...')
+    }
+
     return (
-        <View style={[styles.card, style]}>
-            <View style={styles.top}>
-                <FontAwesome6
-                    name='hashtag'
-                    size={20}
-                    color={MyColors.textPrimary}
-                    style={styles.icon}
-                />
-                <Text
-                    style={styles.title}>{title}</Text>
+        <Pressable
+            onPress={toMyInterestPage}
+        >
+            <View style={[styles.card, style]}>
+                <View style={styles.top}>
+                    <FontAwesome6
+                        name='hashtag'
+                        size={20}
+                        color={MyColors.textPrimary}
+                        style={styles.icon}
+                    />
+                    <Text
+                        style={styles.title}>{title}
+                    </Text>
+                </View>
+                <View style={styles.bottom}>
+                    <Text
+                        style={styles.description}
+                        numberOfLines={2}
+                        ellipsizeMode="tail"
+                    >
+                        {description}
+                    </Text>
+                </View>
             </View>
-            <View style={styles.bottom}>
-                <Text
-                    style={styles.description}
-                    numberOfLines={2}
-                    ellipsizeMode="tail"
-                >
-                    {description}
-                </Text>
-            </View>
-        </View>
+        </Pressable>
     );
 }
 
