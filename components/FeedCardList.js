@@ -9,14 +9,16 @@ import {
   Alert,
   Platform, // fallback for iOS
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import MyColors from "../util/MyColors";
 import { FeedData } from "../util/FeedData";
 import MyFonts from "../util/MyFonts";
+import { size } from "lodash";
 
 const FeedCard = ({ item }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [savedSkills, setSavedSkills] = useState([]);
   const [isShared, setIsShared] = useState(false);
   const [isCommented, setIsCommented] = useState(false);
 
@@ -26,6 +28,18 @@ const FeedCard = ({ item }) => {
     } else {
       Alert.alert(msg);
     }
+  };
+
+  const toggleSave = (id) => {
+    setSavedSkills((prev) => {
+      const isSaved = prev.includes(id);
+      const updated = isSaved
+        ? prev.filter((skillId) => skillId !== id)
+        : [...prev, id];
+
+      showToast(isSaved ? "Removed from saved" : "Saved!");
+      return updated;
+    });
   };
 
   return (
@@ -42,7 +56,44 @@ const FeedCard = ({ item }) => {
       </View>
 
       <View style={styles.body}>
-        <Text style={styles.text}>{item.text}</Text>
+        <View style={styles.post}>
+          <Text style={styles.text} numberOfLines={3} ellipsizeMode="tail">
+            {item.text}
+          </Text>
+        </View>
+        <View style={styles.tags}>
+          {item.tags.map((tag, index) => (
+            <Text key={index} style={styles.tagTxt}>
+              #{tag.replace(/\s+/g, "")}
+            </Text>
+          ))}
+        </View>
+        <View style={styles.recommended}>
+          {item.recSkill.map((skill) => {
+            const isSaved = savedSkills.includes(skill.id);
+
+            return (
+              <View style={styles.recSkills} key={skill.id}>
+                <View style={styles.recLeft}>
+                  <Text style={styles.skillTxt}>{skill.skill}</Text>
+                </View>
+
+                <Pressable
+                  style={styles.recRight}
+                  onPress={() => toggleSave(skill.id)}
+                >
+                  <MaterialCommunityIcons
+                    name={isSaved ? "bookmark-check" : "bookmark-plus-outline"}
+                    size={22}
+                    color={
+                      isSaved ? MyColors.textPrimary : MyColors.textSecondary
+                    }
+                  />
+                </Pressable>
+              </View>
+            );
+          })}
+        </View>
       </View>
 
       {/* Action Buttons */}
@@ -167,10 +218,48 @@ const styles = StyleSheet.create({
     fontFamily: MyFonts.regular,
     color: MyColors.textSecondary,
   },
+  body: {
+    padding: 10,
+    //backgroundColor: MyColors.highlight,
+  },
+  tags: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  post: {},
+  tagTxt: {
+    fontSize: 14,
+    fontFamily: MyFonts.bold,
+    marginRight: 6,
+    color: MyColors.textPrimary,
+  },
+  recSkills: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    backgroundColor: MyColors.border,
+  },
+  recLeft: {
+    //backgroundColor: MyColors.error,
+  },
   text: {
     marginTop: 10,
     fontFamily: MyFonts.regular,
     color: MyColors.textPrimary,
+  },
+  recommended: {
+    flexDirection: "column",
+    marginVertical: 10,
+  },
+  skillTxt: {
+    fontFamily: MyFonts.medium,
+    color: MyColors.textPrimary,
+    fontSize: 14,
+    textAlign: "center",
   },
   actions: {
     marginTop: 15,
