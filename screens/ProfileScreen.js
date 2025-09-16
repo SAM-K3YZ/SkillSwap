@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-<<<<<<< HEAD
 import {
   View,
   Text,
@@ -8,13 +7,6 @@ import {
   Alert,
   FlatList,
 } from "react-native";
-=======
-<<<<<<< HEAD
-import { View, Text, Pressable, StyleSheet, Alert, FlatList } from "react-native";
-=======
-import { View, Text, ScrollView, Pressable, StyleSheet, Alert, FlatList } from "react-native";
->>>>>>> 59d7106318d2e9589ae58a192ea664a693011cb4
->>>>>>> c211b639711e8b8451da0976fc714a6745e47931
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import { useNavigation } from "@react-navigation/native";
