@@ -53,7 +53,7 @@ const PremiumCard = ({ item, isActive, onPress }) => {
 
 export default function PremiumRow() {
   const [activeIndex, setActiveIndex] = useState(1); // default to middle card
-  const activeItem = PremiumData[activeIndex]; // 👈 get the selected card
+  const activeItem = PremiumData[activeIndex]; // get the selected card
 
   return (
     <View style={styles.container}>
